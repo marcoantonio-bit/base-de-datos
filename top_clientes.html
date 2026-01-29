@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Top 5 Clientes por Ventas</title>
+    <link rel="stylesheet" href="top_clientes.css">
+</head>
+<body>
+
+<header>
+    <h1>Top 5 Clientes por Ventas Totales</h1>
+    <p>Consulta SQL – Sistema de Análisis de Ventas</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Código SQL</h2>
+        <pre>
+SELECT
+    c.ClienteID,
+    c.NombreCliente,
+    SUM(dp.Cantidad * dp.PrecioVenta * (1 - dp.Descuento / 100)) AS VentasTotales
+FROM Clientes c
+INNER JOIN Pedidos p ON c.ClienteID = p.ClienteID
+INNER JOIN DetallesPedido dp ON p.PedidoID = dp.PedidoID
+WHERE p.Estado = 'Entregado'
+GROUP BY c.ClienteID, c.NombreCliente
+ORDER BY VentasTotales DESC
+LIMIT 5;
+        </pre>
+    </section>
+
+    <section class="card">
+        <h2>Resultado de la Consulta</h2>
+        <p>
+            En este apartado se coloca la captura de pantalla del resultado obtenido
+            al ejecutar la consulta en MySQL.
+        </p>
+<div class="image-placeholder">
+    <img src="captura1.PNG" alt="Resultado Top Clientes">
+</div>
+
+    </section>
+
+    <!-- BOTONES DE NAVEGACIÓN -->
+    <section class="navigation">
+        <a href="index.html" class="btn">Volver al Inicio</a>
+        <a href="ventas_region.html" class="btn">Siguiente Consulta</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>Sistema de Análisis de Ventas</p>
+</footer>
+
+</body>
+</html>

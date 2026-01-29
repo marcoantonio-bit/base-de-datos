@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking de Vendedores</title>
+    <link rel="stylesheet" href="ranking_vendedores.css">
+</head>
+<body>
+
+<header>
+    <h1>Ranking de Vendedores por Desempeño</h1>
+    <p>Consulta SQL – Sistema de Análisis de Ventas</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Código SQL</h2>
+        <pre>
+WITH VentasPorVendedor AS (
+    SELECT
+        v.VendedorID,
+        v.NombreVendedor,
+        SUM(dp.Cantidad * dp.PrecioVenta * (1 - dp.Descuento / 100)) AS TotalVentas
+    FROM Vendedores v
+    INNER JOIN Pedidos p ON v.VendedorID = p.VendedorID
+    INNER JOIN DetallesPedido dp ON p.PedidoID = dp.PedidoID
+    WHERE p.Estado = 'Entregado'
+    GROUP BY v.VendedorID, v.NombreVendedor
+)
+SELECT
+    NombreVendedor,
+    TotalVentas,
+    ROW_NUMBER() OVER (ORDER BY TotalVentas DESC) AS NumeroFila,
+    RANK() OVER (ORDER BY TotalVentas DESC) AS Ranking,
+    DENSE_RANK() OVER (ORDER BY TotalVentas DESC) AS RankingDenso
+FROM VentasPorVendedor;
+        </pre>
+    </section>
+
+    <section class="card">
+        <h2>Resultado de la Consulta</h2>
+        <p>
+            En este apartado se muestra la captura del resultado obtenido al
+            ejecutar la consulta en MySQL, donde se visualiza el desempeño
+            de cada vendedor según sus ventas totales.
+        </p>
+
+       <div class="image-placeholder">
+    <img src="Captura4.PNG" alt="Resultado Top Clientes">
+</div>
+
+    </section>
+
+    <section class="navigation">
+        <a href="index.html" class="btn">Volver al Inicio</a>
+        <a href="clientes_pedidos.html" class="btn">Siguiente Consulta</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>Sistema de Análisis de Ventas</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes y sus Pedidos</title>
+    <link rel="stylesheet" href="clientes_pedidos.css">
+</head>
+<body>
+
+<header>
+    <h1>Clientes y sus Pedidos</h1>
+    <p>Consulta SQL – Sistema de Análisis de Ventas</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Código SQL</h2>
+        <pre>
+SELECT
+    c.ClienteID,
+    c.NombreCliente,
+    p.PedidoID,
+    p.FechaPedido,
+    p.Estado
+FROM Clientes c
+LEFT JOIN Pedidos p
+    ON c.ClienteID = p.ClienteID
+ORDER BY c.NombreCliente, p.FechaPedido;
+        </pre>
+    </section>
+
+    <section class="card">
+        <h2>Resultado de la Consulta</h2>
+        <p>
+            En esta sección se muestra la captura del resultado obtenido al
+            ejecutar la consulta en MySQL, donde se visualizan todos los
+            clientes, incluyendo aquellos que no han realizado pedidos.
+        </p>
+
+       <div class="image-placeholder">
+    <img src="Captura5.PNG" alt="Resultado Top Clientes">
+</div>
+
+    </section>
+
+    <section class="navigation">
+        <a href="index.html" class="btn">Volver al Inicio</a>
+        <a href="productos_categoria.html" class="btn">Siguiente Consulta</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>Sistema de Análisis de Ventas</p>
+</footer>
+
+</body>
+</html>

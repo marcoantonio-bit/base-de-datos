@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos más Vendidos por Categoría</title>
+    <link rel="stylesheet" href="productos_categoria.css">
+</head>
+<body>
+
+<header>
+    <h1>Productos más Vendidos por Categoría</h1>
+    <p>Consulta SQL – Sistema de Análisis de Ventas</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Código SQL</h2>
+        <pre>
+WITH VentasPorProducto AS (
+    SELECT
+        pr.ProductoID,
+        pr.NombreProducto,
+        pr.Categoria,
+        SUM(dp.Cantidad) AS TotalVendido
+    FROM Productos pr
+    INNER JOIN DetallesPedido dp
+        ON pr.ProductoID = dp.ProductoID
+    INNER JOIN Pedidos p
+        ON dp.PedidoID = p.PedidoID
+    WHERE p.Estado = 'Entregado'
+    GROUP BY pr.ProductoID, pr.NombreProducto, pr.Categoria
+)
+SELECT
+    Categoria,
+    NombreProducto,
+    TotalVendido,
+    DENSE_RANK() OVER (
+        PARTITION BY Categoria
+        ORDER BY TotalVendido DESC
+    ) AS RankingCategoria
+FROM VentasPorProducto;
+        </pre>
+    </section>
+
+    <section class="card">
+        <h2>Resultado de la Consulta</h2>
+        <p>
+            En esta sección se coloca la captura del resultado obtenido al
+            ejecutar la consulta en MySQL, mostrando el ranking de los
+            productos más vendidos por cada categoría.
+        </p>
+
+        <div class="image-placeholder">
+    <img src="Captura6.PNG" alt="Resultado Top Clientes">
+</div>
+
+    </section>
+
+    <section class="navigation">
+        <a href="index.html" class="btn">Volver al Inicio</a>
+        <a href="clientes_superior_promedio.html" class="btn">Siguiente Consulta</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>Sistema de Análisis de Ventas</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos sin Ventas</title>
+    <link rel="stylesheet" href="productos_sin_ventas.css">
+</head>
+<body>
+
+<header>
+    <h1>Productos sin Ventas</h1>
+    <p>Consulta SQL – Sistema de Análisis de Ventas</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Código SQL</h2>
+        <pre>
+SELECT
+    pr.ProductoID,
+    pr.NombreProducto,
+    pr.Categoria,
+    pr.Stock
+FROM Productos pr
+LEFT JOIN DetallesPedido dp
+    ON pr.ProductoID = dp.ProductoID
+WHERE dp.ProductoID IS NULL;
+        </pre>
+    </section>
+
+    <section class="card">
+        <h2>Resultado de la Consulta</h2>
+        <p>
+            En este apartado se muestra la captura del resultado obtenido
+            al ejecutar la consulta en MySQL, donde se identifican los
+            productos que no han tenido ninguna venta.
+        </p>
+
+        <div class="image-placeholder">
+    <img src="Captura3.PNG" alt="Resultado Top Clientes">
+</div>
+
+    </section>
+
+    <section class="navigation">
+        <a href="index.html" class="btn">Volver al Inicio</a>
+        <a href="ranking_vendedores.html" class="btn">Siguiente Consulta</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>Sistema de Análisis de Ventas</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas por Región</title>
+    <link rel="stylesheet" href="ventas_region.css">
+</head>
+<body>
+
+<header>
+    <h1>Ventas por Región</h1>
+    <p>Consulta SQL – Sistema de Análisis de Ventas</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Código SQL</h2>
+        <pre>
+SELECT
+    v.Region,
+    SUM(dp.Cantidad * dp.PrecioVenta * (1 - dp.Descuento / 100)) AS TotalVentas
+FROM Vendedores v
+INNER JOIN Pedidos p ON v.VendedorID = p.VendedorID
+INNER JOIN DetallesPedido dp ON p.PedidoID = dp.PedidoID
+WHERE p.Estado = 'Entregado'
+GROUP BY v.Region
+ORDER BY TotalVentas DESC;
+        </pre>
+    </section>
+
+    <section class="card">
+        <h2>Resultado de la Consulta</h2>
+        <p>
+            En este apartado se muestra la captura del resultado obtenido
+            al ejecutar la consulta en MySQL.
+        </p>
+
+       <div class="image-placeholder">
+    <img src="Captura2.PNG" alt="Resultado Top Clientes">
+</div>
+
+    </section>
+
+    <section class="navigation">
+        <a href="index.html" class="btn">Volver al Inicio</a>
+        <a href="productos_sin_ventas.html" class="btn">Siguiente Consulta</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>Sistema de Análisis de Ventas</p>
+</footer>
+
+</body>
+</html>

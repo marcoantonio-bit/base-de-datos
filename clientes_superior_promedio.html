@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes con Ventas Superiores al Promedio</title>
+    <link rel="stylesheet" href="clientes_superior_promedio.css">
+</head>
+<body>
+
+<header>
+    <h1>Clientes con Ventas Superiores al Promedio</h1>
+    <p>Consulta SQL – Sistema de Análisis de Ventas</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Código SQL</h2>
+        <pre>
+SELECT
+    c.ClienteID,
+    c.NombreCliente,
+    SUM(dp.Cantidad * dp.PrecioVenta * (1 - dp.Descuento / 100)) AS TotalVentas
+FROM Clientes c
+INNER JOIN Pedidos p
+    ON c.ClienteID = p.ClienteID
+INNER JOIN DetallesPedido dp
+    ON p.PedidoID = dp.PedidoID
+WHERE p.Estado = 'Entregado'
+GROUP BY c.ClienteID, c.NombreCliente
+HAVING TotalVentas >
+(
+    SELECT AVG(TotalCliente)
+    FROM (
+        SELECT
+            SUM(dp2.Cantidad * dp2.PrecioVenta * (1 - dp2.Descuento / 100)) AS TotalCliente
+        FROM Pedidos p2
+        INNER JOIN DetallesPedido dp2 ON p2.PedidoID = dp2.PedidoID
+        WHERE p2.Estado = 'Entregado'
+        GROUP BY p2.ClienteID
+    ) AS Subconsulta
+);
+        </pre>
+    </section>
+
+    <section class="card">
+        <h2>Resultado de la Consulta</h2>
+        <p>
+            En esta sección se presenta la captura del resultado obtenido al
+            ejecutar la consulta en MySQL, donde se muestran únicamente los
+            clientes cuyas ventas superan el promedio general.
+        </p>
+
+        <div class="image-placeholder">
+    <img src="Captura7.PNG" alt="Resultado Top Clientes">
+</div>
+
+    </section>
+
+    <section class="navigation">
+        <a href="index.html" class="btn">Volver al Inicio</a>
+        <a href="index.html" class="btn">Finalizar Proyecto</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>Sistema de Análisis de Ventas</p>
+</footer>
+
+</body>
+</html>
